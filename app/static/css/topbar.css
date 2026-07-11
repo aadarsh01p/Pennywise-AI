@@ -1,0 +1,69 @@
+.topbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+.topbar h2{
+
+    color:#1E4D3D;
+    font-size:30px;
+
+}
+
+.topbar p{
+
+    color:#6B7280;
+    margin-top:5px;
+
+}
+
+.top-actions{
+
+    display:flex;
+    gap:15px;
+
+}
+
+.btn{
+
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:15px;
+
+}
+
+.btn-primary{
+
+    background:#1E4D3D;
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:#173D31;
+
+}
+
+.btn-outline-primary{
+
+    background:white;
+    color:#1E4D3D;
+    border:2px solid #1E4D3D;
+
+}
+
+.btn-outline-primary:hover{
+
+    background:#1E4D3D;
+    color:white;
+
+}

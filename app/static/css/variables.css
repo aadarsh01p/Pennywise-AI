@@ -1,0 +1,37 @@
+:root{
+
+    /* Brand Colors */
+
+    --primary:#1E4D3D;
+    --primary-dark:#173D31;
+    --primary-light:#2F6B56;
+
+    /* Background */
+
+    --light:#F5F7FA;
+    --white:#FFFFFF;
+
+    /* Text */
+
+    --text:#1F2937;
+    --gray:#6B7280;
+
+    /* Cards */
+
+    --card:#FFFFFF;
+    --border:#E5E7EB;
+
+    /* Status */
+
+    --success:#16A34A;
+    --warning:#F59E0B;
+    --danger:#DC2626;
+
+    /* Shadow */
+
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+
+    /* Radius */
+
+    --radius:15px;
+}

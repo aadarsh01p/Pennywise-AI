@@ -1,0 +1,28 @@
+@media(max-width:992px){
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid-2,
+    .grid-bottom{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main-content{
+        margin-left:0;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+
+}

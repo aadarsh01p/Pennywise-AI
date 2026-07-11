@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | PennyWise AI</title>
+
+    <link rel="stylesheet" href="/static/css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <h1>PennyWise AI</h1>
+        <p class="subtitle">Welcome Back 👋</p>
+
+        <form id="loginForm">
+
+            <div class="input-box">
+                <label>Username or Email</label>
+                <input
+                    type="text"
+                    id="username_or_email"
+                    placeholder="Enter your username or email"
+                    required>
+            </div>
+
+            <div class="input-box">
+                <label>Password</label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required>
+
+                    <i class="fa-solid fa-eye" id="togglePassword"></i>
+
+                </div>
+
+            </div>
+
+            <div class="options">
+
+                <label>
+                    <input type="checkbox">
+                    Remember Me
+                </label>
+
+                <a href="#" id="forgotPasswordBtn">
+                  Forgot Password?
+                </a>
+
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Don't have an account?
+
+            <a href="/register">
+                Register
+            </a>
+        </p>
+
+    </div>
+
+</div>
+<div id="forgotModal" class="modal">
+
+    <div class="modal-content">
+
+        <span id="closeModal">&times;</span>
+
+        <h2>Forgot Password</h2>
+
+        <input type="email" id="resetEmail" placeholder="Registered Email">
+
+        <input type="text" id="otp" placeholder="4-digit OTP" style="display:none;">
+
+        <input type="password" id="newPassword" placeholder="New Password" style="display:none;">
+
+        <input type="password" id="confirmNewPassword" placeholder="Confirm Password" style="display:none;">
+
+        <button id="sendOtpBtn">Send OTP</button>
+
+        <button id="resetPasswordBtn" style="display:none;">
+            Reset Password
+        </button>
+
+    </div>
+
+</div>
+<script src="/static/js/auth.js"></script>
+
+</body>
+</html>

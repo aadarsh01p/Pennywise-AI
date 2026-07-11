@@ -1,0 +1,107 @@
+/* ---------- Header ---------- */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.page-header h1{
+    color:var(--primary);
+}
+
+/* ---------- Button ---------- */
+
+.add-btn{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    background:var(--primary-dark);
+}
+
+/* ---------- Table ---------- */
+
+.table-container{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:var(--primary);
+    color:#fff;
+}
+
+th,td{
+    padding:16px;
+    text-align:left;
+}
+
+tbody tr{
+    border-bottom:1px solid #eee;
+}
+
+tbody tr:hover{
+    background:#F7F9F8;
+}
+
+/* ---------- Modal ---------- */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    width:420px;
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.modal-content h2{
+    color:var(--primary);
+    margin-bottom:20px;
+}
+
+/* ---------- Form ---------- */
+
+#transactionForm{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+#transactionForm input,
+#transactionForm select{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+#transactionForm input:focus,
+#transactionForm select:focus{
+    outline:none;
+    border-color:var(--primary);
+}

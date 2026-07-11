@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload CSV | PennyWise AI</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="main-content">
+
+    <div class="page-header">
+
+        <h1>Upload Bank Statement</h1>
+
+        <a href="/dashboard" class="add-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Dashboard
+        </a>
+
+    </div>
+
+    <div class="upload-card">
+
+        <i class="fa-solid fa-file-csv upload-icon"></i>
+
+        <h2>Upload CSV File</h2>
+
+        <p>Select your bank statement in CSV format.</p>
+
+        <form id="uploadForm">
+
+            <input
+                type="file"
+                id="csvFile"
+                accept=".csv"
+                required>
+
+            <button type="submit" class="add-btn">
+                <i class="fa-solid fa-upload"></i>
+                Upload CSV
+            </button>
+
+        </form>
+
+        <p id="uploadMessage"></p>
+
+    </div>
+
+</div>
+
+<script src="/static/js/upload.js"></script>
+
+</body>
+
+</html>

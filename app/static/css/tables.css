@@ -1,0 +1,30 @@
+.table-card{
+
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 10px 20px rgba(0,0,0,.06);
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#1E4D3D;
+    color:white;
+    padding:14px;
+
+}
+
+td{
+
+    padding:14px;
+    border-bottom:1px solid #E5E7EB;
+
+}
