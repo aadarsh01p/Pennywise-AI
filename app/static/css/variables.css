@@ -1,37 +1,62 @@
-:root{
+:root {
 
-    /* Brand Colors */
+    /* ==============================
+       BRAND COLORS
+    ============================== */
 
-    --primary:#1E4D3D;
-    --primary-dark:#173D31;
-    --primary-light:#2F6B56;
+    --primary: #195B49;
+    --primary-dark: #124638;
+    --primary-light: #286B5A;
 
-    /* Background */
+    /* ==============================
+       BACKGROUND COLORS
+    ============================== */
 
-    --light:#F5F7FA;
-    --white:#FFFFFF;
+    --background: #F4F7F7;
+    --light: #F4F7F7;
+    --white: #FFFFFF;
 
-    /* Text */
+    /* ==============================
+       TEXT COLORS
+    ============================== */
 
-    --text:#1F2937;
-    --gray:#6B7280;
+    --text: #172B2A;
+    --gray: #64748B;
 
-    /* Cards */
+    /* ==============================
+       CARD COLORS
+    ============================== */
 
-    --card:#FFFFFF;
-    --border:#E5E7EB;
+    --card: #FFFFFF;
+    --border: #E2EAE7;
 
-    /* Status */
+    /* ==============================
+       STATUS COLORS
+    ============================== */
 
-    --success:#16A34A;
-    --warning:#F59E0B;
-    --danger:#DC2626;
+    --success: #16A34A;
+    --warning: #F59E0B;
+    --danger: #DC2626;
 
-    /* Shadow */
+    /* ==============================
+       SIDEBAR COLORS
+    ============================== */
 
-    --shadow:0 10px 25px rgba(0,0,0,.08);
+    --sidebar-bg: #195B49;
+    --sidebar-text: #DCE8E3;
+    --sidebar-hover: #286B5A;
+    --sidebar-active-bg: #FFFFFF;
+    --sidebar-active-text: #195B49;
 
-    /* Radius */
+    /* ==============================
+       SHADOW
+    ============================== */
 
-    --radius:15px;
+    --shadow: 0 10px 25px rgba(25, 91, 73, 0.08);
+
+    /* ==============================
+       BORDER RADIUS
+    ============================== */
+
+    --radius: 15px;
 }

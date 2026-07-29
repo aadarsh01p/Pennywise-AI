@@ -6,20 +6,20 @@
 }
 
 body{
-    background:var(--background);
-    color:var(--text);
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#f5f7fb;
 }
 
 .wrapper{
     display:flex;
     min-height:100vh;
-    background:var(--background);
 }
 
 .main-content{
     flex:1;
-    margin-left:250px;
-    padding:35px;
+    margin-left:320px;
+    padding:32px 40px;
     background:var(--background);
     overflow-y:auto;
 }

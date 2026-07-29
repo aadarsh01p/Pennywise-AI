@@ -1,0 +1,44 @@
+.page-title{
+    margin-bottom:25px;
+}
+
+.card{
+    background:#fff;
+    border:none;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+}
+
+.card h5{
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.table{
+    margin:0;
+}
+
+.table th{
+    font-weight:600;
+}
+
+.table td,
+.table th{
+    vertical-align:middle;
+}
+
+#lineChart,
+#pieChart{
+    max-height:320px;
+}
+
+#insightsList{
+    margin:0;
+    padding-left:20px;
+}
+
+#insightsList li{
+    margin-bottom:10px;
+}

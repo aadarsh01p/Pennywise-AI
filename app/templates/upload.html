@@ -1,66 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Upload CSV | PennyWise AI</title>
+    <title>PennyWise AI | Upload CSV</title>
+
+    <!-- Bootstrap -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
 
     <link rel="stylesheet" href="/static/css/style.css">
-
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="main-content">
+<div class="wrapper">
 
-    <div class="page-header">
+    <!-- Sidebar -->
 
-        <h1>Upload Bank Statement</h1>
+    <aside class="sidebar">
 
-        <a href="/dashboard" class="add-btn">
-            <i class="fa-solid fa-arrow-left"></i>
-            Dashboard
-        </a>
+        <div class="logo">
+            <i class="bi bi-wallet2"></i>
+            <h4>PennyWise AI</h4>
+        </div>
 
-    </div>
+        <nav>
 
-    <div class="upload-card">
+            <a href="/dashboard">
+                <i class="bi bi-grid-fill"></i> Dashboard
+            </a>
 
-        <i class="fa-solid fa-file-csv upload-icon"></i>
+            <a href="/transactions">
+                <i class="bi bi-cash-stack"></i> Transactions
+            </a>
 
-        <h2>Upload CSV File</h2>
+            <a href="/upload" class="active">
+                <i class="bi bi-upload"></i> Upload CSV
+            </a>
 
-        <p>Select your bank statement in CSV format.</p>
+            <a href="/reports">
+                <i class="bi bi-bar-chart"></i> Reports
+            </a>
 
-        <form id="uploadForm">
+            <a href="/budget">
+                <i class="bi bi-wallet-fill"></i> Budget
+            </a>
 
-            <input
-                type="file"
-                id="csvFile"
-                accept=".csv"
-                required>
+            <a href="/goals">
+                <i class="bi bi-bullseye"></i> Goals
+            </a>
 
-            <button type="submit" class="add-btn">
-                <i class="fa-solid fa-upload"></i>
-                Upload CSV
-            </button>
+            <a href="/chatbot">
+                <i class="bi bi-robot"></i> AI Assistant
+            </a>
 
-        </form>
+        </nav>
 
-        <p id="uploadMessage"></p>
+        <button class="logout-btn" id="logoutBtn">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
 
-    </div>
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h2>Upload Bank Statement</h2>
+                <p>Upload your bank statement in CSV format.</p>
+            </div>
+
+        </header>
+
+        <div class="card p-5">
+
+            <form
+                action="/upload/csv"
+                method="POST"
+                enctype="multipart/form-data">
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Select CSV File
+                    </label>
+
+                    <input
+                        type="file"
+                        class="form-control"
+                        name="file"
+                        accept=".csv"
+                        required>
+
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    type="submit">
+
+                    <i class="bi bi-upload"></i>
+
+                    Upload CSV
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
 
 </div>
 
-<script src="/static/js/upload.js"></script>
-
 </body>
-
 </html>

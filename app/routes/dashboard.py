@@ -6,47 +6,68 @@ from app.auth_dependencies import get_current_user
 from app.models.user import User
 from app.models.transactions import Transaction
 
+from app.services.finance_engine import (
+    get_monthly_summary,
+    get_category_spending,
+    get_financial_health,
+    get_monthly_expenses,
+)
+
 router = APIRouter(tags=["Dashboard"])
 
 
 @router.get("/api/dashboard")
 def get_dashboard(
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
+    user_id = current_user.id
 
-    transactions = db.query(Transaction).filter(
-        Transaction.user_id == current_user.id
-    ).all()
+    # =====================================
+    # Financial Intelligence
+    # =====================================
 
-    income = sum(
-        t.amount
-        for t in transactions
-        if t.transaction_type == "Income"
+    summary = get_monthly_summary(user_id, db)
+    categories = get_category_spending(user_id, db)
+    health = get_financial_health(user_id, db)
+    monthly = get_monthly_expenses(user_id, db)
+    # =====================================
+    # Recent Transactions
+    # =====================================
+
+    transactions = (
+        db.query(Transaction)
+        .filter(Transaction.user_id == user_id)
+        .order_by(Transaction.date.desc())
+        .all()
     )
 
-    expense = sum(
-        t.amount
-        for t in transactions
-        if t.transaction_type == "Expense"
-    )
+    recent_transactions = [
+        {
+            "id": transaction.id,
+            "date": str(transaction.date),
+            "description": transaction.description,
+            "amount": transaction.amount,
+            "category": transaction.category,
+            "type": transaction.transaction_type,
+        }
+        for transaction in transactions[:5]
+    ]
 
-    savings = income - expense
-
-    health = 0
-
-    if income > 0:
-        health = round((savings / income) * 100)
-
-    health = max(0, min(100, health))
+    # =====================================
+    # Dashboard Response
+    # =====================================
 
     return {
         "user": {
             "username": current_user.username,
-            "full_name": current_user.full_name
+            "full_name": current_user.full_name,
         },
-        "income": income,
-        "expense": expense,
-        "savings": savings,
-        "health": health
+        "income": summary["income"],
+        "expense": summary["expenses"],
+        "savings": summary["savings"],
+        "health": health["score"],
+        "categories": categories,
+        "monthly": monthly,
+        "recent": recent_transactions,
     }

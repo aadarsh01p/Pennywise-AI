@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PennyWise AI | Goals</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="bi bi-wallet2"></i>
+
+            <h4>PennyWise AI</h4>
+
+        </div>
+
+        <nav>
+
+            <a href="/dashboard">
+
+                <i class="bi bi-grid-fill"></i>
+
+                Dashboard
+
+            </a>
+
+            <a href="/transactions">
+
+                <i class="bi bi-cash-stack"></i>
+
+                Transactions
+
+            </a>
+
+            <a href="/upload">
+
+                <i class="bi bi-upload"></i>
+
+                Upload CSV
+
+            </a>
+
+            <a href="/reports">
+
+                <i class="bi bi-bar-chart"></i>
+
+                Reports
+
+            </a>
+
+            <a href="/budget">
+
+                <i class="bi bi-wallet-fill"></i>
+
+                Budget
+
+            </a>
+
+            <a
+                href="/goals"
+                class="active">
+
+                <i class="bi bi-bullseye"></i>
+
+                Goals
+
+            </a>
+
+            <a href="/chatbot">
+
+                <i class="bi bi-robot"></i>
+
+                AI Assistant
+
+            </a>
+
+        </nav>
+
+        <button
+            id="logoutBtn"
+            class="logout-btn">
+
+            <i class="bi bi-box-arrow-right"></i>
+
+            Logout
+
+        </button>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h2>Financial Goals</h2>
+
+                <p>
+
+                    Create savings goals and let PennyWise
+                    automatically determine whether you are on track.
+
+                </p>
+
+            </div>
+
+        </header>
+
+        <!-- Create / Edit Goal -->
+
+        <div class="card p-4 mb-4">
+
+            <h5 class="mb-4">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Goal Details
+
+            </h5>
+
+            <input
+                id="goalId"
+                type="hidden">
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Goal Name
+
+                    </label>
+
+                    <input
+
+                        id="goalName"
+
+                        class="form-control"
+
+                        type="text"
+
+                        placeholder="e.g.Japan Trip">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Target Amount
+
+                    </label>
+
+                    <input
+
+                        id="goalAmount"
+
+                        class="form-control"
+
+                        type="number"
+
+                        placeholder="e.g. 300000">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Time to Achieve
+
+                    </label>
+
+                    <div class="d-flex gap-2">
+
+                        <input
+
+                            id="goalTime"
+
+                            class="form-control"
+
+                            type="number"
+
+                            min="1">
+
+                        <select
+
+                            id="goalUnit"
+
+                            class="form-select">
+
+                            <option value="months">
+
+                                Months
+
+                            </option>
+
+                            <option value="years">
+
+                                Years
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Priority
+
+                    </label>
+
+                    <select
+
+                        id="goalPriority"
+
+                        class="form-select">
+
+                        <option value="High">
+
+                            🔴 High
+
+                        </option>
+
+                        <option
+                            value="Medium"
+                            selected>
+
+                            🟡 Medium
+
+                        </option>
+
+                        <option value="Low">
+
+                            🟢 Low
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button
+
+                id="saveGoalBtn"
+
+                class="btn btn-primary mt-4">
+
+                <i class="bi bi-check-lg"></i>
+
+                Save Goal
+
+            </button>
+
+        </div>
+
+        <!-- Summary -->
+
+        <div
+
+            id="goalSummary"
+
+            class="card p-4 mb-4">
+
+        </div>
+
+        <!-- Goals -->
+
+        <div
+
+            id="goalContainer"
+
+            class="row g-4">
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="/static/js/goals.js"></script>
+
+</body>
+
+</html>

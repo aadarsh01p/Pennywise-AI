@@ -9,10 +9,10 @@
 }
 
 .topbar h2{
-
+    font-size:2.6rem;
+    font-weight:700;
     color:#1E4D3D;
-    font-size:30px;
-
+    margin-bottom:6px;
 }
 
 .topbar p{
@@ -66,4 +66,34 @@
     background:#1E4D3D;
     color:white;
 
+}
+
+/* ================================
+   BUTTON MICRO-INTERACTIONS
+================================ */
+
+.top-actions button {
+    transition: transform .2s ease,
+                box-shadow .2s ease;
+}
+
+.top-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(31, 106, 85, .15);
+}
+
+.top-actions button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .top-actions button {
+        transition: none;
+    }
+
+    .top-actions button:hover,
+    .top-actions button:active {
+        transform: none;
+    }
 }

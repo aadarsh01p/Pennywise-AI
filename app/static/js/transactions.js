@@ -111,9 +111,13 @@ if (form) {
 
             else {
 
-                alert("Failed to add transaction.");
+    const error = await response.text();
 
-            }
+    console.error(error);
+
+    alert(error);
+
+}
 
         }
 

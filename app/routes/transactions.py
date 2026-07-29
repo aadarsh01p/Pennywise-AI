@@ -11,7 +11,7 @@ from app.schemas.transaction_schemas import (
     TransactionCreate,
     TransactionResponse,
 )
-from app.services.ai_services import categorize_transaction
+from app.services.ai_service import categorize_transaction
 
 router = APIRouter(
     prefix="/api/transactions",

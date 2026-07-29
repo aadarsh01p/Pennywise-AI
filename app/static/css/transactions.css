@@ -34,7 +34,11 @@
     background:#fff;
     border-radius:15px;
     overflow:hidden;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    .card{
+    background:#fff;
+    border-radius:22px;
+    box-shadow:0 15px 35px rgba(30,77,61,.08);
+}
 }
 
 table{

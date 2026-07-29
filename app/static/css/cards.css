@@ -58,3 +58,57 @@
     width:100%;
     margin:20px 0;
 }
+
+.upload-card{
+    max-width:650px;
+    margin:40px auto;
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(30,77,61,.08);
+}
+
+.upload-card p{
+    color:var(--gray);
+    margin:15px 0;
+}
+
+.upload-card button{
+    margin-top:20px;
+}
+
+/* ================================
+   CARD MICRO-INTERACTIONS
+================================ */
+
+.summary-card {
+    transition: transform .25s ease, box-shadow .25s ease;
+    will-change: transform;
+}
+
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(31, 106, 85, .12);
+}
+
+.summary-card h3 {
+    transition: transform .25s ease;
+}
+
+.summary-card:hover h3 {
+    transform: scale(1.02);
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+    .summary-card,
+    .summary-card h3 {
+        transition: none;
+    }
+
+    .summary-card:hover,
+    .summary-card:hover h3 {
+        transform: none;
+    }
+}

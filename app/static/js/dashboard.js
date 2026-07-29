@@ -1,165 +1,119 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", loadDashboard);
 
-    loadDashboard();
-    loadCharts();
-    animateCards();
-
-});
+let lineChart, pieChart;
 
 async function loadDashboard() {
 
     try {
 
-        const response = await fetch("/api/dashboard", {
+        const res = await fetch("/api/dashboard", {
             credentials: "include"
         });
 
-        if (!response.ok) {
-            console.error("Failed to load dashboard");
-            return;
-        }
+        const data = await res.json();
 
-        const data = await response.json();
+        // =====================
+        // Cards
+        // =====================
 
-        document.getElementById("welcomeUser").textContent =
+        welcomeUser.textContent =
             `Hello, ${data.user.full_name || data.user.username}`;
 
-        document.getElementById("income").textContent =
-            `₹${data.income}`;
+        income.textContent = `₹${data.income}`;
+        expense.textContent = `₹${data.expense}`;
+        savings.textContent = `₹${data.savings}`;
+        health.textContent = `${data.health}/100`;
 
-        document.getElementById("expense").textContent =
-            `₹${data.expense}`;
+        healthStatus.textContent =
+            data.health >= 80 ? "Excellent" :
+            data.health >= 60 ? "Good" :
+            data.health >= 40 ? "Average" :
+            "Needs Improvement";
 
-        document.getElementById("savings").textContent =
-            `₹${data.savings}`;
+        // =====================
+        // Monthly Chart
+        // =====================
 
-        document.getElementById("health").textContent =
-            `${data.health}/100`;
+        lineChart?.destroy();
 
-        const status = document.getElementById("healthStatus");
-
-        if (data.health >= 80)
-            status.textContent = "Excellent";
-        else if (data.health >= 60)
-            status.textContent = "Good";
-        else if (data.health >= 40)
-            status.textContent = "Average";
-        else
-            status.textContent = "Needs Improvement";
-
-    } catch (error) {
-        console.error(error);
-    }
-
-}
-
-// ===============================
-// Income vs Expense Chart
-// ===============================
-
-function loadCharts() {
-
-    const lineCanvas = document.getElementById("lineChart");
-
-    if (lineCanvas) {
-
-        new Chart(lineCanvas, {
+        lineChart = new Chart(lineChartCanvas, {
 
             type: "line",
 
             data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                datasets: [{
-                    label: "Expenses",
-                    data: [18, 22, 20, 25, 23, 21],
-                    borderColor: "#2563EB",
-                    backgroundColor: "rgba(37,99,235,.2)",
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
 
-            options: {
-                responsive: true,
-                maintainAspectRatio: true   
+                labels: data.monthly.map(m => m.month),
+
+                datasets: [{
+
+                    label: "Expenses",
+
+                    data: data.monthly.map(m => m.expense),
+
+                    borderColor: "#2563EB",
+
+                    backgroundColor: "rgba(37,99,235,.15)",
+
+                    fill: true,
+
+                    tension: .4
+
+                }]
+
             }
 
         });
 
-    }
+        // =====================
+        // Pie Chart
+        // =====================
 
-    const pieCanvas = document.getElementById("pieChart");
+        pieChart?.destroy();
 
-    if (pieCanvas) {
-
-        new Chart(pieCanvas, {
+        pieChart = new Chart(pieChartCanvas, {
 
             type: "pie",
 
             data: {
 
-                labels: [
-                    "Food",
-                    "Transport",
-                    "Shopping",
-                    "Bills",
-                    "Entertainment"
-                ],
+                labels: Object.keys(data.categories),
 
                 datasets: [{
 
-                    data: [35, 20, 18, 15, 12],
+                    data: Object.values(data.categories),
 
                     backgroundColor: [
+
                         "#2563EB",
                         "#22C55E",
                         "#F59E0B",
                         "#EF4444",
-                        "#8B5CF6"
+                        "#8B5CF6",
+                        "#14B8A6",
+                        "#EC4899",
+                        "#F97316"
+
                     ]
 
                 }]
 
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
             }
 
         });
 
     }
 
-}
+    catch (err) {
 
-// ===============================
-// Card Hover Animation
-// ===============================
+        console.error(err);
 
-function animateCards() {
-
-    const cards = document.querySelectorAll(".summary-card");
-
-    cards.forEach(card => {
-
-        card.addEventListener("mouseenter", () => {
-
-            card.style.transform = "translateY(-5px)";
-
-        });
-
-        card.addEventListener("mouseleave", () => {
-
-            card.style.transform = "translateY(0px)";
-
-        });
-
-    });
+    }
 
 }
 
-const logoutBtn = document.getElementById("logoutBtn");
+// =====================
+// Logout
+// =====================
 
 logoutBtn?.addEventListener("click", async () => {
 
@@ -170,12 +124,16 @@ logoutBtn?.addEventListener("click", async () => {
 
     localStorage.removeItem("user");
 
-    window.location.replace("/login");
+    location.replace("/login");
 
 });
 
-const uploadBtn = document.getElementById("uploadBtn");
+// =====================
+// Upload
+// =====================
 
 uploadBtn?.addEventListener("click", () => {
-    window.location.href = "/upload";
+
+    location.href = "/upload";
+
 });

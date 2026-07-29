@@ -148,6 +148,24 @@
 
 </div>
 
+<script>
+const lineChartCanvas = document.getElementById("lineChart");
+const pieChartCanvas = document.getElementById("pieChart");
+const welcomeUser = document.getElementById("welcomeUser");
+const income = document.getElementById("income");
+const expense = document.getElementById("expense");
+const savings = document.getElementById("savings");
+const health = document.getElementById("health");
+const healthStatus = document.getElementById("healthStatus");
+const logoutBtn = document.getElementById("logoutBtn");
+const uploadBtn = document.getElementById("uploadBtn");
+const askAiBtn = document.getElementById("askAiBtn");
+
+askAiBtn?.addEventListener("click", () => {
+    location.href = "/chatbot";
+});
+</script>
+
 <script src="/static/js/dashboard.js"></script>
 
 </body>

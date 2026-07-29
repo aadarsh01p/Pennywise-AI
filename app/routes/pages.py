@@ -1,123 +1,126 @@
-from fastapi import APIRouter, Request, Cookie
-from fastapi.responses import RedirectResponse
-from fastapi.templating import Jinja2Templates
-from jose import JWTError, jwt
+from fastapi import APIRouter, Cookie
+from fastapi.responses import FileResponse, RedirectResponse, HTMLResponse
+from jose import jwt, JWTError
+import os
 
 from app.config import SECRET_KEY, ALGORITHM
 
-router = APIRouter()
+router = APIRouter(tags=["Pages"])
 
-templates = Jinja2Templates(directory="app/templates")
+BASE_DIR = os.path.join("app", "templates")
 
 
-# ==========================
-# Home Route
-# ==========================
+def is_authenticated(access_token: str | None):
+
+    if access_token is None:
+        return False
+
+    try:
+        jwt.decode(
+            access_token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+        return True
+
+    except JWTError:
+        return False
+
 
 @router.get("/")
 def home():
     return RedirectResponse(url="/login")
 
 
-# ==========================
-# Login Page
-# ==========================
-
 @router.get("/login")
-def login_page(request: Request):
-    return templates.TemplateResponse(
-        "login.html",
-        {"request": request}
+def login_page():
+
+    return FileResponse(
+        os.path.join(BASE_DIR, "login.html")
     )
 
-
-# ==========================
-# Register Page
-# ==========================
 
 @router.get("/register")
-def register_page(request: Request):
-    return templates.TemplateResponse(
-        "register.html",
-        {"request": request}
+def register_page():
+
+    return FileResponse(
+        os.path.join(BASE_DIR, "register.html")
     )
 
 
-# ==========================
-# Protected Dashboard
-# ==========================
+@router.get("/forgot-password")
+def forgot_password():
+
+    return FileResponse(
+        os.path.join(BASE_DIR, "forgot_password.html")
+    )
+
 
 @router.get("/dashboard")
 def dashboard(
-    request: Request,
     access_token: str = Cookie(default=None)
 ):
 
-    if access_token is None:
+    if not is_authenticated(access_token):
         return RedirectResponse(url="/login")
 
-    try:
-        jwt.decode(
-            access_token,
-            SECRET_KEY,
-            algorithms=[ALGORITHM]
-        )
-
-    except JWTError:
-        return RedirectResponse(url="/login")
-
-    return templates.TemplateResponse(
-        "dashboard.html",
-        {
-            "request": request
-        }
+    return FileResponse(
+        os.path.join(BASE_DIR, "dashboard.html")
     )
 
-
-# ==========================
-# Transactions Page
-# ==========================
 
 @router.get("/transactions")
 def transactions(
-    request: Request,
     access_token: str = Cookie(default=None)
 ):
 
-    if access_token is None:
+    if not is_authenticated(access_token):
         return RedirectResponse(url="/login")
 
-    try:
-        jwt.decode(
-            access_token,
-            SECRET_KEY,
-            algorithms=[ALGORITHM]
-        )
-
-    except JWTError:
-        return RedirectResponse(url="/login")
-
-    return templates.TemplateResponse(
-        "transactions.html",
-        {
-            "request": request
-        }
+    return FileResponse(
+        os.path.join(BASE_DIR, "transactions.html")
     )
 
-@router.get("/forgot-password")
-def forgot_password(request: Request):
-    return templates.TemplateResponse(
-        "forgot_password.html",
-        {"request": request}
-    )
 
 @router.get("/upload")
 def upload_page(
-    request: Request,
     access_token: str = Cookie(default=None)
 ):
-    ...
-    return templates.TemplateResponse(
-        "upload.html",
-        {"request": request}
+
+    if not is_authenticated(access_token):
+        return RedirectResponse(url="/login")
+
+    return FileResponse(
+        os.path.join(BASE_DIR, "upload.html")
+    )
+
+
+@router.get("/reports")
+def reports_page(
+    access_token: str = Cookie(default=None)
+):
+
+    if not is_authenticated(access_token):
+        return RedirectResponse(url="/login")
+
+    return FileResponse(
+        os.path.join(BASE_DIR, "reports.html")
+    )
+
+@router.get("/budget")
+def budget_page():
+    return FileResponse(
+        os.path.join("app", "templates", "budget.html")
+    )
+
+@router.get("/goals")
+def goals_page(
+    access_token: str = Cookie(default=None)
+):
+
+    if not is_authenticated(access_token):
+        return RedirectResponse(url="/login")
+
+    return FileResponse(
+        os.path.join(BASE_DIR, "goals.html")
     )
