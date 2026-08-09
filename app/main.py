@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
 
 from app.database import Base, engine
-
 from app.routes.auth import router as auth_router
 from app.routes.pages import router as pages_router
 from app.routes.transactions import router as transaction_router
@@ -14,15 +13,12 @@ from app.routes.reports import router as reports_router
 from app.routes import budget
 from app.routes.goals import router as goals_router
 from app.routes.chatbot import router as chatbot_router
-
 from app.models.password_reset import PasswordReset
-
 
 # ==========================================
 # Create Database Tables
 # ==========================================
 Base.metadata.create_all(bind=engine)
-
 
 # ==========================================
 # FastAPI Application
@@ -31,7 +27,6 @@ app = FastAPI(
     title="PennyWise AI",
     version="1.0.0"
 )
-
 
 # ==========================================
 # CORS Configuration
@@ -83,8 +78,6 @@ def api():
     return {
         "message": "PennyWise AI Backend Running 🚀"
     }
-
-from fastapi.responses import FileResponse
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():

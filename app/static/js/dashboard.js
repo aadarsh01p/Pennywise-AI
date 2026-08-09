@@ -1,115 +1,230 @@
 document.addEventListener("DOMContentLoaded", loadDashboard);
 
-let lineChart, pieChart;
+let lineChart = null;
+let pieChart = null;
+
+
+// =====================
+// Load Dashboard
+// =====================
 
 async function loadDashboard() {
 
     try {
 
-        const res = await fetch("/api/dashboard", {
-            credentials: "include"
+        // Always request fresh dashboard data
+        const res = await fetch(`/api/dashboard?_=${Date.now()}`, {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store"
         });
 
+        if (!res.ok) {
+            throw new Error(`Dashboard request failed: ${res.status}`);
+        }
+
         const data = await res.json();
+
+        console.log("Fresh dashboard data:", data);
+
 
         // =====================
         // Cards
         // =====================
 
-        welcomeUser.textContent =
-            `Hello, ${data.user.full_name || data.user.username}`;
+        if (welcomeUser && data.user) {
+            welcomeUser.textContent =
+                `Hello, ${data.user.full_name || data.user.username}`;
+        }
 
-        income.textContent = `₹${data.income}`;
-        expense.textContent = `₹${data.expense}`;
-        savings.textContent = `₹${data.savings}`;
-        health.textContent = `${data.health}/100`;
+        if (income) {
+            income.textContent = `₹${Number(data.income || 0).toLocaleString("en-IN")}`;
+        }
 
-        healthStatus.textContent =
-            data.health >= 80 ? "Excellent" :
-            data.health >= 60 ? "Good" :
-            data.health >= 40 ? "Average" :
-            "Needs Improvement";
+        if (expense) {
+            expense.textContent = `₹${Number(data.expense || 0).toLocaleString("en-IN")}`;
+        }
 
-        // =====================
-        // Monthly Chart
-        // =====================
+        if (savings) {
+            savings.textContent = `₹${Number(data.savings || 0).toLocaleString("en-IN")}`;
+        }
 
-        lineChart?.destroy();
+        if (health) {
+            health.textContent = `${data.health || 0}/100`;
+        }
 
-        lineChart = new Chart(lineChartCanvas, {
-
-            type: "line",
-
-            data: {
-
-                labels: data.monthly.map(m => m.month),
-
-                datasets: [{
-
-                    label: "Expenses",
-
-                    data: data.monthly.map(m => m.expense),
-
-                    borderColor: "#2563EB",
-
-                    backgroundColor: "rgba(37,99,235,.15)",
-
-                    fill: true,
-
-                    tension: .4
-
-                }]
-
-            }
-
-        });
 
         // =====================
-        // Pie Chart
+        // Health Status
         // =====================
 
-        pieChart?.destroy();
+        if (healthStatus) {
 
-        pieChart = new Chart(pieChartCanvas, {
+            const score = Number(data.health || 0);
 
-            type: "pie",
+            healthStatus.textContent =
+                score >= 80 ? "Excellent" :
+                score >= 60 ? "Good" :
+                score >= 40 ? "Average" :
+                "Needs Improvement";
+        }
 
-            data: {
 
-                labels: Object.keys(data.categories),
+        // =====================
+        // Monthly Expenses Chart
+        // =====================
 
-                datasets: [{
+        if (lineChartCanvas) {
 
-                    data: Object.values(data.categories),
+            lineChart?.destroy();
 
-                    backgroundColor: [
+            const monthlyData = Array.isArray(data.monthly)
+                ? data.monthly
+                : [];
 
-                        "#2563EB",
-                        "#22C55E",
-                        "#F59E0B",
-                        "#EF4444",
-                        "#8B5CF6",
-                        "#14B8A6",
-                        "#EC4899",
-                        "#F97316"
+            lineChart = new Chart(lineChartCanvas, {
 
-                    ]
+                type: "line",
 
-                }]
+                data: {
 
-            }
+                    labels: monthlyData.map(item => item.month),
 
-        });
+                    datasets: [{
 
-    }
+                        label: "Expenses",
 
-    catch (err) {
+                        data: monthlyData.map(item =>
+                            Number(item.expense || 0)
+                        ),
 
-        console.error(err);
+                        borderColor: "#2563EB",
+
+                        backgroundColor: "rgba(37, 99, 235, 0.15)",
+
+                        fill: true,
+
+                        tension: 0.4,
+
+                        borderWidth: 3,
+
+                        pointRadius: 4,
+
+                        pointHoverRadius: 6
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: true
+                        }
+
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+
+                                callback: function(value) {
+                                    return "₹" +
+                                        Number(value).toLocaleString("en-IN");
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            });
+        }
+
+
+        // =====================
+        // Expense Categories
+        // =====================
+
+        if (pieChartCanvas) {
+
+            pieChart?.destroy();
+
+            const categories =
+                data.categories &&
+                typeof data.categories === "object"
+                    ? data.categories
+                    : {};
+
+            pieChart = new Chart(pieChartCanvas, {
+
+                type: "pie",
+
+                data: {
+
+                    labels: Object.keys(categories),
+
+                    datasets: [{
+
+                        data: Object.values(categories),
+
+                        backgroundColor: [
+
+                            "#2563EB",
+                            "#22C55E",
+                            "#F59E0B",
+                            "#EF4444",
+                            "#8B5CF6",
+                            "#14B8A6",
+                            "#EC4899",
+                            "#F97316"
+
+                        ]
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            position: "bottom"
+                        }
+
+                    }
+
+                }
+
+            });
+        }
+
+
+    } catch (err) {
+
+        console.error("Dashboard loading error:", err);
 
     }
 
 }
+
 
 // =====================
 // Logout
@@ -117,10 +232,18 @@ async function loadDashboard() {
 
 logoutBtn?.addEventListener("click", async () => {
 
-    await fetch("/auth/logout", {
-        method: "POST",
-        credentials: "include"
-    });
+    try {
+
+        await fetch("/auth/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+
+    } catch (err) {
+
+        console.error("Logout error:", err);
+
+    }
 
     localStorage.removeItem("user");
 
@@ -128,8 +251,9 @@ logoutBtn?.addEventListener("click", async () => {
 
 });
 
+
 // =====================
-// Upload
+// Upload CSV
 // =====================
 
 uploadBtn?.addEventListener("click", () => {
