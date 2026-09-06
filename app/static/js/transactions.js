@@ -99,8 +99,6 @@ if (form) {
 
             if (response.ok) {
 
-                alert("Transaction Added Successfully!");
-
                 closeModal();
 
                 form.reset();
@@ -114,8 +112,6 @@ if (form) {
     const error = await response.text();
 
     console.error(error);
-
-    alert(error);
 
 }
 

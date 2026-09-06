@@ -11,6 +11,14 @@ body{
     background:#f5f7fb;
 }
 
+button,
+input,
+select,
+textarea,
+table {
+    font-family: inherit;
+}
+
 .wrapper{
     display:flex;
     min-height:100vh;

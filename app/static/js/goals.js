@@ -28,10 +28,9 @@ async function saveGoal() {
 
     if (!goalName.value || !goalAmount.value || !goalTime.value) {
 
-        alert("Please fill all fields.");
+        console.error("Please fill all fields.");
 
         return;
-
     }
 
     const body = {

@@ -2,28 +2,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("PennyWise upload.js loaded");
 
+
     /* =========================
-    LOGOUT
+       LOGOUT
     ========================= */
 
-    const logoutBtn = document.getElementById("logoutBtn");
+    const logoutBtn =
+        document.getElementById("logoutBtn");
 
     if (logoutBtn) {
 
-        logoutBtn.addEventListener("click", function () {
+        logoutBtn.addEventListener(
+            "click",
+            function () {
 
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("token");
+                localStorage.removeItem(
+                    "access_token"
+                );
 
-            window.location.href = "/login";
+                localStorage.removeItem(
+                    "token"
+                );
 
-        });
-
+                window.location.href =
+                    "/login";
+            }
+        );
     }
-    const form = document.getElementById("uploadForm");
-    const fileInput = document.getElementById("csvFile");
-    const uploadButton = document.getElementById("uploadBtn");
-    const uploadStatus = document.getElementById("uploadStatus");
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const form =
+        document.getElementById("uploadForm");
+
+    const fileInput =
+        document.getElementById("csvFile");
+
+    const uploadButton =
+        document.getElementById("uploadBtn");
+
+    const uploadStatus =
+        document.getElementById("uploadStatus");
+
+    const csvLoader =
+        document.getElementById("csvLoader");
+
+    const coinSymbol =
+        document.getElementById("coinSymbol");
+
+    const loaderText =
+        document.getElementById("loaderText");
 
 
     /* =========================
@@ -31,34 +62,225 @@ document.addEventListener("DOMContentLoaded", function () {
     ========================= */
 
     if (!form) {
-        console.error("ERROR: uploadForm was not found.");
+
+        console.error(
+            "ERROR: uploadForm was not found."
+        );
+
         return;
     }
+
 
     if (!fileInput) {
-        console.error("ERROR: csvFile was not found.");
+
+        console.error(
+            "ERROR: csvFile was not found."
+        );
+
         return;
     }
 
-    console.log("Upload form connected successfully.");
+
+    console.log(
+        "Upload form connected successfully."
+    );
+
+
+    /* =========================
+       WAIT HELPER
+    ========================= */
+
+    function wait(ms) {
+
+        return new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    ms
+                )
+        );
+    }
 
 
     /* =========================
        STATUS MESSAGE
     ========================= */
 
-    function showStatus(message, type) {
+    function showStatus(
+        message,
+        type
+    ) {
 
         if (!uploadStatus) {
             return;
         }
 
-        uploadStatus.textContent = message;
+        uploadStatus.textContent =
+            message;
 
         uploadStatus.className =
             "upload-status " + type;
 
-        uploadStatus.style.display = "block";
+        uploadStatus.style.display =
+            "block";
+    }
+
+
+    /* =========================
+       RESET LOADER
+    ========================= */
+
+    function resetLoader() {
+
+        if (csvLoader) {
+
+            csvLoader.classList.remove(
+                "success"
+            );
+        }
+
+
+        if (coinSymbol) {
+
+            coinSymbol.textContent = "₹";
+        }
+
+
+        if (loaderText) {
+
+            loaderText.innerHTML = `
+                Processing your statement
+
+                <span class="loading-dots">
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                </span>
+            `;
+        }
+    }
+
+
+    /* =========================
+       SHOW LOADER
+    ========================= */
+
+    async function showLoader() {
+
+        resetLoader();
+
+
+        if (csvLoader) {
+
+            csvLoader.classList.add(
+                "active"
+            );
+        }
+
+
+        /*
+         * Give browser time to
+         * render loader animation.
+         */
+
+        await new Promise(
+            resolve =>
+
+                requestAnimationFrame(
+                    () =>
+
+                        requestAnimationFrame(
+                            resolve
+                        )
+                )
+        );
+    }
+
+
+    /* =========================
+       SUCCESS ANIMATION
+    ========================= */
+
+    async function showSuccess() {
+
+        /*
+         * Stop normal loader animation
+         * and activate success styling.
+         */
+
+        if (csvLoader) {
+
+            csvLoader.classList.add(
+                "success"
+            );
+        }
+
+
+        /*
+         * Change ₹ to ✓
+         */
+
+        if (coinSymbol) {
+
+            coinSymbol.textContent = "✓";
+        }
+
+
+        /*
+         * Change loader message
+         */
+
+        if (loaderText) {
+
+            loaderText.textContent =
+                "Statement uploaded successfully";
+        }
+
+
+        /*
+         * Keep success visible
+         */
+
+        await wait(1800);
+    }
+
+
+    /* =========================
+       HIDE LOADER
+    ========================= */
+
+    function hideLoader() {
+
+        if (!csvLoader) {
+            return;
+        }
+
+
+        csvLoader.classList.remove(
+            "active",
+            "success"
+        );
+    }
+
+
+    /* =========================
+       RESET UPLOAD BUTTON
+    ========================= */
+
+    function resetUploadButton() {
+
+        if (!uploadButton) {
+            return;
+        }
+
+
+        uploadButton.disabled = false;
+
+
+        uploadButton.innerHTML = `
+            <i class="bi bi-upload"></i>
+            Upload CSV
+        `;
     }
 
 
@@ -66,197 +288,289 @@ document.addEventListener("DOMContentLoaded", function () {
        FORM SUBMISSION
     ========================= */
 
-    form.addEventListener("submit", async function (event) {
+    form.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-        event.stopPropagation();
+            event.preventDefault();
 
+            event.stopPropagation();
 
-        /* =========================
-           CHECK FILE
-        ========================= */
-
-        const file = fileInput.files[0];
-
-        if (!file) {
-
-            showStatus(
-                "Please select a CSV file.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* =========================
-           CHECK FILE TYPE
-        ========================= */
-
-        if (!file.name.toLowerCase().endsWith(".csv")) {
-
-            showStatus(
-                "Please select a CSV file.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        /* =========================
-           PREPARE FORM DATA
-        ========================= */
-
-        const formData = new FormData();
-
-        formData.append("file", file);
-
-
-        try {
 
             /* =========================
-               LOADING STATE
+               GET FILE
             ========================= */
 
-            if (uploadButton) {
+            const file =
+                fileInput.files[0];
 
-                uploadButton.disabled = true;
 
-                uploadButton.innerHTML =
-                    '<i class="bi bi-arrow-repeat"></i> Uploading...';
+            /* =========================
+               CHECK FILE
+            ========================= */
+
+            if (!file) {
+
+                showStatus(
+                    "Please select a CSV file.",
+                    "error"
+                );
+
+                return;
             }
 
-            showStatus(
-                "Uploading CSV...",
-                "loading"
-            );
+
+            /* =========================
+               CHECK FILE TYPE
+            ========================= */
+
+            if (
+                !file.name
+                    .toLowerCase()
+                    .endsWith(".csv")
+            ) {
+
+                showStatus(
+                    "Please select a valid CSV file.",
+                    "error"
+                );
+
+                return;
+            }
 
 
             /* =========================
-               SEND CSV TO BACKEND
+               PREPARE FORM DATA
             ========================= */
 
-            const response = await fetch(
-                "/upload/csv",
-                {
-                    method: "POST",
-                    credentials: "include",
-                    body: formData
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            try {
+
+                /* =========================
+                   BUTTON LOADING STATE
+                ========================= */
+
+                if (uploadButton) {
+
+                    uploadButton.disabled =
+                        true;
+
+
+                    uploadButton.innerHTML = `
+                        <i class="bi bi-arrow-repeat"></i>
+                        Uploading...
+                    `;
                 }
-            );
 
 
-            /* =========================
-               READ RESPONSE
-            ========================= */
+                /* =========================
+                   HIDE OLD STATUS
+                ========================= */
 
-            const contentType =
-                response.headers.get("content-type") || "";
+                if (uploadStatus) {
 
-            let data = {};
+                    uploadStatus.style.display =
+                        "none";
+                }
 
-            if (contentType.includes("application/json")) {
 
-                data = await response.json();
+                /* =========================
+                   SHOW ₹ LOADER
+                ========================= */
 
-            } else {
+                await showLoader();
 
-                const text = await response.text();
 
-                throw new Error(
-                    text || "CSV upload failed."
+                const loaderStartTime =
+                    Date.now();
+
+
+                /* =========================
+                   SEND CSV TO BACKEND
+                ========================= */
+
+                const response =
+                    await fetch(
+                        "/upload/csv",
+                        {
+                            method: "POST",
+
+                            credentials:
+                                "include",
+
+                            body:
+                                formData
+                        }
+                    );
+
+
+                /* =========================
+                   READ RESPONSE
+                ========================= */
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+
+                let data = {};
+
+
+                if (
+                    contentType.includes(
+                        "application/json"
+                    )
+                ) {
+
+                    data =
+                        await response.json();
+
+                } else {
+
+                    const text =
+                        await response.text();
+
+
+                    throw new Error(
+
+                        text ||
+
+                        "CSV upload failed."
+
+                    );
+                }
+
+
+                console.log(
+                    "Upload response:",
+                    data
                 );
-            }
 
 
-            console.log(
-                "Upload response:",
-                data
-            );
+                /* =========================
+                   BACKEND ERROR
+                ========================= */
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        data.detail ||
+
+                        data.message ||
+
+                        "CSV upload failed."
+
+                    );
+                }
 
 
-            /* =========================
-               HANDLE BACKEND ERROR
-            ========================= */
+                /* =========================
+                   MINIMUM LOADER TIME
+                ========================= */
 
-            if (!response.ok) {
-
-                throw new Error(
-                    data.detail ||
-                    "CSV upload failed."
-                );
-            }
+                const minimumLoaderTime =
+                    3000;
 
 
-            /* =========================
-               SUCCESS
-            ========================= */
+                const elapsedTime =
 
-            showStatus(
-                "CSV uploaded successfully",
-                "success"
-            );
+                    Date.now() -
+
+                    loaderStartTime;
 
 
-            /* =========================
-               SUCCESS BUTTON STATE
-            ========================= */
+                if (
+                    elapsedTime <
+                    minimumLoaderTime
+                ) {
 
-            if (uploadButton) {
+                    await wait(
 
-                uploadButton.innerHTML =
-                    '<i class="bi bi-check-circle"></i> Uploaded';
+                        minimumLoaderTime -
 
-            }
+                        elapsedTime
+
+                    );
+                }
 
 
-            /* =========================
-               GO TO DASHBOARD
-            ========================= */
+                /* =========================
+                   SUCCESS
+                   ₹ → ✓
+                ========================= */
 
-            setTimeout(() => {
+                await showSuccess();
+
+
+                /* =========================
+                   HIDE LOADER
+                ========================= */
+
+                hideLoader();
+
+
+                /* =========================
+                   REDIRECT
+                ========================= */
 
                 window.location.replace(
                     "/dashboard"
                 );
 
-            }, 1000);
+
+            } catch (error) {
+
+                console.error(
+                    "Upload error:",
+                    error
+                );
 
 
-        } catch (error) {
+                /* =========================
+                   HIDE LOADER
+                ========================= */
 
-            console.error(
-                "Upload error:",
-                error
-            );
-
-
-            /* =========================
-               ERROR MESSAGE
-            ========================= */
-
-            showStatus(
-                error.message ||
-                "Upload failed. Please try again.",
-                "error"
-            );
+                hideLoader();
 
 
-            /* =========================
-               RESET BUTTON
-            ========================= */
+                resetLoader();
 
-            if (uploadButton) {
 
-                uploadButton.disabled = false;
+                /* =========================
+                   SHOW ERROR
+                ========================= */
 
-                uploadButton.innerHTML =
-                    '<i class="bi bi-upload"></i> Upload CSV';
+                showStatus(
+
+                    error.message ||
+
+                    "Upload failed. Please try again.",
+
+                    "error"
+
+                );
+
+
+                /* =========================
+                   RESET BUTTON
+                ========================= */
+
+                resetUploadButton();
+
             }
 
         }
-
-    });
+    );
 
 });

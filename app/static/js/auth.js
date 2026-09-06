@@ -35,13 +35,11 @@ registerForm?.addEventListener("submit", async (e) => {
         if (!response.ok)
             return alert(data.detail);
 
-        alert("Registration Successful!");
         window.location.href = "/login";
 
     } catch (err) {
 
         console.log(err);
-        alert("Server Error");
 
     }
 
@@ -90,15 +88,11 @@ loginForm?.addEventListener("submit", async (e) => {
             JSON.stringify(data.user)
         );
 
-        alert("Login Successful!");
-
         window.location.href = "/dashboard";
 
     } catch (err) {
 
         console.log(err);
-        alert("Server Error");
-
     }
 
 });
