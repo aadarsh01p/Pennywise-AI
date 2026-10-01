@@ -7,36 +7,36 @@
 - [x] User Model
 - [x] JWT Authentication
 - [x] Register API
-- [ ] Login API
-- [ ] Swagger Testing
+- [x] Login API
+- [x] Swagger Testing
 
 ---
 
 ## Phase 2 - CSV Upload
 
-- [ ] Upload API
-- [ ] CSV Parsing
-- [ ] Transaction Storage
+- [x] Upload API
+- [x] CSV Parsing
+- [x] Transaction Storage
 
 ---
 
 ## Phase 3 - Dashboard
 
-- [ ] Charts
-- [ ] Analytics
-- [ ] Monthly Summary
+- [x] Charts
+- [x] Analytics
+- [x] Monthly Summary
 
 ---
 
 ## Phase 4 - AI Assistant
 
-- [ ] Gemini Integration
-- [ ] Chatbot
-- [ ] Financial Suggestions
+- [x] Gemini Integration
+- [x] Chatbot
+- [x] Financial Suggestions
 
 ---
 
 ## Phase 5 - Reports
 
-- [ ] PDF Export
-- [ ] CSV Export
+- [x] PDF Export
+- [x] CSV Export

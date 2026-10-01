@@ -28,8 +28,8 @@ def get_transactions(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    print("Current User ID:", current_user.id)
-    print("Current User Email:", current_user.email)
+    # print("Current User ID:", current_user.id)
+    # print("Current User Email:", current_user.email)
     transactions = (
         db.query(Transaction)
         .filter(Transaction.user_id == current_user.id)

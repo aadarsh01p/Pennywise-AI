@@ -73,11 +73,11 @@ app.include_router(budget.router)
 app.include_router(goals_router)
 app.include_router(chatbot_router)
 
-@app.get("/api")
-def api():
-    return {
-        "message": "PennyWise AI Backend Running 🚀"
-    }
+# @app.get("/api")
+# def api():
+#     return {
+#         "message": "PennyWise AI Backend Running 🚀"
+#     }
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
